@@ -60,7 +60,7 @@ function printing ($animals_again) {
     foreach ($animals as $animal) {
       $text = $text . $animal . ', ';
     }
-    $text = substr($text, 0, strlen($text) - 3);
+    $text = substr($text, 0, strlen($text) - 2);
     $text = $text . '</div>';
   }
   return $text;
