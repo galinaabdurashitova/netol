@@ -18,7 +18,7 @@ function second_task ($animals_all) {
       }
     }
 
-    if ($t) {
+    if (count($t) !== 0) {
       $animals_new[$continent] = $t;
     }
   }
@@ -28,17 +28,26 @@ function second_task ($animals_all) {
 
 
 function third_task ($animals_two_words) {
-  $second_words = array();
-  $animals_fantastic = array();
+  $second_words = make_arr_second_words($animals_two_words);
+  return make_arr_random_names($animals_two_words, $second_words);
+}
 
-  foreach ($animals_two_words as $continent => $animals) {
-    foreach($animals as $animal) {
+
+function make_arr_second_words($animals_all) {
+  $second_words = array();
+  foreach ($animals_all as $continent => $animals) {
+    foreach ($animals as $animal) {
       $animal = explode(' ', $animal);
       $second_words[] = $animal[1];
     }
   }
+  return $second_words;
+}
 
-  foreach ($animals_two_words as $continent => $animals) {
+
+function make_arr_random_names($animals_all, $second_words) {
+  $animals_fantastic = array();
+  foreach ($animals_all as $continent => $animals) {
     foreach($animals as $animal) {
       do {
         $a = rand(0, count($second_words) - 1);
@@ -57,10 +66,19 @@ function printing ($animals_again) {
   $text = '';
   foreach ($animals_again as $continent => $animals) {
     $text = $text . '<div class="continent"><h2>' . $continent . '</h2>';
-    foreach ($animals as $animal) {
-      $text = $text . $animal . ', ';
+
+    $first = true;
+    foreach ($animals as $animal)
+    {
+      if ($first) {
+        $text .= $animal;
+        $first = false;
+      }
+      else {
+        $text .= ', ';
+        $text = $text . $animal;
+      }
     }
-    $text = substr($text, 0, strlen($text) - 2);
     $text = $text . '</div>';
   }
   return $text;
