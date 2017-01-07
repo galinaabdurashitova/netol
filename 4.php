@@ -107,8 +107,8 @@ function sorted($note_arr) {
     $note_arr2 = array_slice($note_arr, $mid);
     $sorted_arr1 = sorted($note_arr1);
     $sorted_arr2 = sorted($note_arr2);
-    $a = end($sorted_arr1);
-    if ($sorted_arr2[0]["likes"] > $a["likes"]) {
+    $mid_note = end($sorted_arr1);
+    if ($sorted_arr2[0]["likes"] > $mid_note["likes"]) {
       return array_merge($sorted_arr2, $sorted_arr1);
     }
     else {
