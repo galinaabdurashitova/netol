@@ -30,8 +30,8 @@ function get_vk_posts() {
 
 
 function create_note($note) {
-  $html_note["id"] = $note["id"];
-  $html_note["name"] = get_name($note["id"]);
+  $html_note["id"] = $note["owner_id"];
+  $html_note["name"] = get_name($note["owner_id"]);
   $html_note["date"] = date('d.m.Y H:i', $note["date"]);
   if ($note["text"] != null) {
     $html_note["text"] = get_text($note["text"]);
@@ -47,9 +47,16 @@ function create_note($note) {
 
 
 function get_name($id) {
-  $url = 'https://api.vk.com/method/users.get?user_id=' . $id . '&v=5.52';
-  $name = api_vk_answer($url);
-  return $name[0]["first_name"] . ' ' . $name[0]["last_name"];
+  if (mb_substr($id, 0, 1) === '-') {
+    $url = 'https://api.vk.com/method/groups.getById?group_id=' . mb_substr($id, 1) . '&v=5.52';
+    $name = api_vk_answer($url);
+    return $name[0]["name"];
+  }
+  else {
+    $url = 'https://api.vk.com/method/users.get?user_id=' . $id . '&v=5.52';
+    $name = api_vk_answer($url);
+    return $name[0]["first_name"] . ' ' . $name[0]["last_name"];
+  }
 }
 
 
@@ -100,11 +107,12 @@ function sorted($note_arr) {
     $note_arr2 = array_slice($note_arr, $mid);
     $sorted_arr1 = sorted($note_arr1);
     $sorted_arr2 = sorted($note_arr2);
-    if ($sorted_arr2[0]["likes"] <= $sorted_arr1[count($sorted_arr1) - 1]["likes"]) {
-      return array_merge($sorted_arr1, $sorted_arr2);
+    $a = end($sorted_arr1);
+    if ($sorted_arr2[0]["likes"] > $a["likes"]) {
+      return array_merge($sorted_arr2, $sorted_arr1);
     }
     else {
-      return array_merge($sorted_arr2, $sorted_arr1);
+      return array_merge($sorted_arr1, $sorted_arr2);
     }
   }
 }
@@ -121,7 +129,14 @@ HTML;
 foreach (get_vk_posts() as $note) {
   echo '<div class="post">
     <h2>
-      <a href="http://vk.com/id' . $note['id'] . '">
+      <a href="http://vk.com/';
+  if (mb_substr($note['id'], 0, 1) === '-') {
+    echo 'club' . mb_substr($note['id'], 1);
+  }
+  else {
+    echo 'id' . $note['id'];
+  }
+  echo '">
       ' . $note['name'] . '
       </a>
     </h2>
