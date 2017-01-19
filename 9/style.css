@@ -1,0 +1,20 @@
+body {
+	text-align: center;
+	font-family: Sylfaen;
+}
+
+.news {
+	margin: 30px;
+	padding: 10px 20px;
+	background: LightCoral;
+	text-align: left;
+	font-size: 20px;
+}
+
+.comment {
+	background: LightPink;
+	margin: 10px;
+	padding: 10px 20px;
+	text-align: left;
+	font-size: 16px;
+}
