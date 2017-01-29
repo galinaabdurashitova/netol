@@ -1,0 +1,211 @@
+class Pencil
+{
+	private $color;
+	private $length = 100;
+	private $sharpness = 100;
+	private $hb;
+	private $company;
+	
+	public function __construct($color, $hb, $company)
+	{
+		$this->color = $color;
+		$this->hb = $hb;
+		$this->company = $company;
+	}
+	
+	public function draw()
+	{
+		$this->length -= 20;
+		$this->sharpness -= 20;
+	}
+	
+	public function sharpen()
+	{
+		$this->length -= 20;
+		$this->sharpness = 100;
+	}
+	
+	public function break()
+	{
+		$this->length /= 2;
+		$newPencil = clone $this;
+		return $newPencil;
+	}
+	
+	public function getColor()
+	{
+		return $this->color;
+	}
+	
+	public function getHB()
+	{
+		return $this->hb;
+	}
+}
+
+
+class Wine
+{
+	private $color;
+	private $sweetness;
+	private $country;
+	private $price;
+	private $quantity;
+	
+	public function __construct($color, $sweetness, $country)
+	{
+		$this->color = $color;
+		$this->sweetness = $sweetness;
+		$this->country = $country;
+	}
+	
+	public function buy($quantity)
+	{
+		$this->quantity -= $quantity;
+	}
+	
+	public function delivery($quantity)
+	{
+		$this->quantity += $quantity;
+	}
+	
+	public function changePrice($newPrice)
+	{
+		$this->price = $newPrice;
+	}
+	
+	public function countBottles()
+	{
+		return $this->quantity;
+	}
+	
+	public function getInfo()
+	{
+		return array($this->color, $this->sweetness, $this->country);
+	}
+}
+
+
+class Paper
+{
+	private $size;
+	private $form;
+	private $lines;
+	private $content = array();
+	private $notFlat = 100;
+	
+	public function __construct($size, $lines)
+	{
+		$this->size = $size;
+		$this->lines = $lines;
+	}
+	
+	public function fold()
+	{
+		$this->notFlat -= 10;
+	}
+	
+	public function draw($content)
+	{
+		$this->content[] = $content;
+	}
+	
+	public function cut($size)
+	{
+		$this->size /= 2;
+		$newPaper = clone $this;
+		return $newPaper;
+	}
+	
+	public function cutFigure($form)
+	{
+		$this->form = $form;
+		$this->size -= 10;
+	}
+	
+	public function getInfo()
+	{
+		return array($this->size, $this->form, $this->lines, $this->content, $this->notFlat);
+	}
+}
+
+
+class House
+{
+	private $floors;
+	private $entrances;
+	private $year;
+	private $flats;
+	private $residents;
+	
+	piblic function __construct($floors, $entrances, $year, $flats)
+	{
+		$this->floors = $floors;
+		$this->entrances = $entrances;
+		$this->year = $year;
+		$this->flats = $flats;
+	}
+	
+	public function newResidents($amount)
+	{
+		$this->residents += $amount;
+	}
+	
+	public function removeResidents($amount)
+	{
+		$this->residents -= $amount;
+	}
+	
+	public function howOld($yearNow)
+	{
+		return ($yearNow - $this->year);
+	}
+	
+	public function flatsOnFloor()
+	{
+		return ($this->flats / $this->entrances) / $this->floors;
+	}
+	
+	public function getInfo()
+	{
+		return array($this->floors, $this->entrances, $this->year, $this->flats, $this->residents);
+	}
+}
+
+
+class Book
+{
+	private $name;
+	private $author;
+	private $publishing;
+	public $bookmark = 0;
+	private $pagesInBook;
+	
+	public function __construct($name, $author, $publishing, $pagesInBook)
+	{
+		$this->name = $name;
+		$this->author = $author;
+		$this->publishing = $publishing;
+		$this->pagesInBook = $pagesInBook;
+	}
+	
+	public function getInfo()
+	{
+		return array($this->name, $this->author, $this->publishing, $this->pagesInBook);
+	}
+	
+	public function read($pages)
+	{
+		$this->bookmark += $pages;
+	}
+	
+	public function restart()
+	{
+		$this->bookmark = 0;
+	}
+	
+	public function pagesTillEnd()
+	{
+		return $this->pagesInBook - $this->bookmark;
+	}
+}

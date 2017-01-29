@@ -5,6 +5,7 @@ class News
   private $header;
   private $date;
   private $content;
+  private $comments;
 
   public function __construct($header, $date, $content)
   {
@@ -28,13 +29,14 @@ class News
     return $this->header;
   }
 
-  public function getComments($comments)
+  public function addComments($comments)
   {
-    $commentsForThisNews = array();
-    foreach ($comments as $comment) {
-      $commentsForThisNews[] = '<b>' . $comment->getLogin() . '</b> пишет:<br>' . $comment->getContent();
-    }
-    return $commentsForThisNews;
+    $this->comments = $comments;
+  }
+
+  public function getComments()
+  {
+    return $this->comments;
   }
 }
 
