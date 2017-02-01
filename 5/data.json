@@ -1,0 +1,20 @@
+[
+	{
+		"first_name": "Ivan",
+		"last_name" : "Ivanov",
+		"adress" : "ул. Сталеваров, 5",
+		"phone_number" : "8-888-8888"
+	},
+	{
+		"first_name": "Petr",
+		"last_name" : "Petrov",
+		"adress" : "ул. Красногвардейцев, 15",
+		"phone_number" : "8-300-2222"
+	},
+	{
+		"first_name": "Dima",
+		"last_name" : "Sidorov",
+		"adress" : "ул. Большевистская, 122",
+		"phone_number" : "8-933-9055"
+	}
+]
