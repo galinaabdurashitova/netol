@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="js/modernizr.js"></script>
+	<title>FAQ</title>
+</head>
+<body>
+<header>
+    <h1>Привет, Админ!</h1>
+</header>
+<a href="logout.php">Выйти</a><br><br>
+<section class="cd-faq">
+	
+	<div class="cd-faq-items">
+        {% if changing.true %}
+           <h2>Редактирование вопроса:</h2>
+           <form method="POST">
+                <label for="name">Имя:</label>
+                <input name="name" id="name" value="{{changing.name}}"><br><br>
+                <label for="cat">Категория вопроса: </label>
+                <select name="cat">
+                    {% for cat in categories %}
+                        {% if cat.id == changing.cat %}
+                            <option value="{{cat.id}}" selected>{{cat.name}}</option>
+                        {% else %}
+                            <option value="{{cat.id}}">{{cat.name}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select><br><br>
+                <label for="text">Вопрос:</label><br>
+                <textarea name="text" id="text" width="200" cols=60 rows=8>
+                    {{changing.text}}
+                </textarea><br>
+                <label for="answer">Ответ:</label><br>
+                <textarea name="answer" id="answer" width="200" cols=60 rows=8>
+                    {{changing.answer}}
+                </textarea><br>
+                <input type="hidden" value="{{changing.id}}" name="questionID">
+                <input type="submit" name="confirmChangeQuestion" value ="Подтвердить">
+           </form>
+        {% endif %}
+        <ul id="users" class="cd-faq-group">            
+            <li>
+                <a class="cd-faq-trigger" href="#0">Администраторы</a>
+                <div class="cd-faq-content">
+                  <b>Добавить нового:</b>
+                   <form method="POST">
+                        <label for="login">Логин: </label>
+                        <input name="login">
+                        <label for="password">Пароль: </label>
+                        <input name="password">
+                        <input type="submit" name="newAdmin" value="Добавить">
+                   </form>
+                   <br>
+                    <table class="super-table">
+                       <tr>
+                           <td>Имя</td>
+                           <td>Пароль</td>
+                           <td>Х</td>
+                       </tr>
+                        {% for admin in admins %}
+                            <tr>
+                                <td>{{admin.name}}</td>
+                                <td>{{admin.password}}</td>
+                                <td>
+                                    <form method="POST">
+                                        <input type="hidden" value="{{admin.id}}" name="adminID">
+                                        <input type="submit" name="deleteAdmin" value="Удалить">
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <br>
+                    <form method="POST">
+                        <label for="name">Поменять пароль для: </label>
+                        <select name="adminID">
+                            {% for admin in admins %}
+                                <option value="{{admin.id}}">{{admin.name}}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="newPassword">Новый пароль: </label>
+                        <input name="newPassword">
+                        <input type="submit" name="changePassword" value="Подтвердить">
+                    </form>
+                </div>
+            </li>
+            
+            <li>
+                <a class="cd-faq-trigger" href="#0">Темы</a>
+                <div class="cd-faq-content">
+                   <b>Добавить новую тему:</b>
+                   <form method="POST">
+                        <input name="newCatName">
+                        <input type="submit" name="newCat" value="Добавить">
+                   </form><br>
+                    <table class="super-table">
+                       <tr>
+                           <td>Название</td>
+                           <td>Кол-во вопросов</td>
+                           <td>Неотвеченных</td>
+                           <td>Удалить тему и все вопросы</td>
+                       </tr>
+                        {% for cat in categories %}
+                            <tr>
+                                <td>{{cat.name}}</td>
+                                <td>{{cat.allQuestions}}</td>
+                                <td>{{cat.na}}</td>
+                                <td>
+                                    <form method="POST">
+                                        <input type="hidden" value="{{cat.id}}" name="adminID">
+                                        <input type="submit" name="deleteCat" value="Удалить">
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </li>
+            
+            <li>
+                <a class="cd-faq-trigger" href="#0">Все вопросы</a>
+                <div class="cd-faq-content">
+                    <ul class="cd-faq-group">
+                        {% for cat in categories %}
+                            <li class="cd-faq-title"><h2>{{cat.name}}</h2></li>
+                            <table class="super-table">
+                                <tr>
+                                    <td>Вопрос</td>
+                                    <td>Имя</td>
+                                    <td>Почта</td>
+                                    <td>Дата</td>
+                                    <td>Статус</td>
+                                    <td>Ответ</td>
+                                    <td>Действия</td>
+                                </tr>
+                                {% for question in cat.questions %}
+                                    <tr>
+                                        <td>{{question.text}}</td>
+                                        <td>{{question.name}}</td>
+                                        <td>{{question.email}}</td>
+                                        <td>{{question.date}}</td>
+                                        <td>
+                                            {% if question.status == 1 %}
+                                                Ожидает ответа
+                                            {% elseif question.status == 2 %}
+                                                Ответ получен
+                                            {% elseif question.status == 3 %}
+                                                Скрыт
+                                            {% endif %}
+                                        </td>
+                                        <td>{{question.answer}}</td>
+                                        <td>
+                                            <form method="POST">
+                                                <input type="hidden" value="{{question.id}}" name="questionID">
+                                                {% if question.status == 2 %}
+                                                    <input type="submit" name="hideQuestion" value="Скрыть">
+                                                {% elseif question.status == 3 %}
+                                                    <input type="submit" name="showQuestion" value="Показывать">
+                                                {% endif %}
+                                                <input type="submit" name="changeQuestion" value="Редактировать">
+                                                <input type="submit" name="deleteQuestion" value="Удалить">
+                                            </form>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table><br>
+                            <form method="POST">
+                                <label for="questionID">Поменять категорию для: </label>
+                                <select name="questionID">
+                                    {% for question in cat.questions %}
+                                        <option value="{{question.id}}">{{question.text}}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="newPassword">Новая категория: </label>
+                                <select name="catID">
+                                    {% for category in categories %}
+                                        {% if category.id != cat.id %}
+                                            <option value="{{category.id}}">{{category.name}}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                                <input type="submit" name="changeCategory" value="Подтвердить">
+                            </form><br>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+            
+            <li>
+                <a class="cd-faq-trigger" href="#0">Вопросы без ответов</a>
+                <div class="cd-faq-content">
+                    <ul class="cd-faq-group">
+                        {% for cat in categories %}
+                            <li class="cd-faq-title"><h2>{{cat.name}}</h2></li>
+                            <table class="super-table">
+                                <tr>
+                                    <td>Вопрос</td>
+                                    <td>Имя</td>
+                                    <td>Почта</td>
+                                    <td>Дата</td>
+                                    <td>Ответ</td>
+                                    <td>Действия</td>
+                                </tr>
+                                {% for question in cat.questions %}
+                                   {% if question.status == 1 %}
+                                        <tr>
+                                            <td>{{question.text}}</td>
+                                            <td>{{question.name}}</td>
+                                            <td>{{question.email}}</td>
+                                            <td>{{question.date}}</td>
+                                            <td>
+                                                <form method="POST">
+                                                    <input type="hidden" value="{{question.id}}" name="questionID">
+                                                    <textarea name="answer"></textarea>
+                                                    <select name="status">
+                                                        <option value=2>Видимый</option>
+                                                        <option value=3>Невидимый</option>
+                                                    </select>
+                                                    <input type="submit" name="answerQuestion" value="Ответить">
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="POST">
+                                                    <input type="hidden" value="{{question.id}}" name="questionID">
+                                                    <input type="submit" name="changeQuestion" value="Редактировать">
+                                                    <input type="submit" name="deleteQuestion" value="Удалить">
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table><br>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        
+	</div>
+	<a href="#0" class="cd-close-panel">Close</a>
+</section>
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/jquery.mobile.custom.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

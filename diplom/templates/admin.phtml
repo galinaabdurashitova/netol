@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="js/modernizr.js"></script>
+	<title>FAQ</title>
+</head>
+<body>
+<header>
+	<h1>Вход в админскую часть</h1>
+</header>
+<a href="index.php">Назад к вопросам</a><br><br>
+<section style="text-align: center;">
+    {% if isEnter != 0 %}
+        {{isEnter}}
+    {% endif %}
+    <form method="POST">
+        <label for="login">Логин:</label>
+        <input name="login" id="login">
+        <label for="password">Пароль:</label>
+        <input name="password" id="password" type="password"><br><br>
+        <input type="submit" value ="Войти">
+    </form>
+</section>
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/jquery.mobile.custom.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

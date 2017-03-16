@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="js/modernizr.js"></script>
+	<title>FAQ</title>
+</head>
+<body>
+<header>
+	<h1>Задать вопрос</h1>
+</header>
+<a href="admin.php">Администрирование</a><br><br>
+<a href="index.php">FAQ</a>
+<section style="text-align: center;">
+    {% if isSent == 1 %}
+       <p>Спасибо за вопрос!</p><br>
+    {% elseif isSent == 2 %}
+       <p>Введите все данные!</p><br>
+    {% endif %}
+        <form method="POST">
+            <label for="name">Ваше имя:</label>
+            <input name="name" id="name"><br><br>
+            <label for="email">Ваша почта:</label>
+            <input name="email" id="email"><br><br>
+            <label for="cat">Категория вопроса: </label>
+            <select name="cat">
+               {% for cat in cats %}
+                    <option value="{{cat.id}}">{{cat.name}}</option>
+                {% endfor %}
+            </select><br><br>
+            <label for="text">Ваш вопрос:</label><br>
+            <textarea name="text" id="text" width="200" cols=60 rows=8></textarea><br>
+            <input type="submit" value ="Отправить">
+        </form>
+</section>
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/jquery.mobile.custom.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="js/modernizr.js"></script>
+	<title>FAQ</title>
+</head>
+<body>
+<header>
+	<h1>Задать вопрос</h1>
+</header>
+<a href="admin.php">Администрирование</a><br><br>
+<a href="ask.php">Задать вопрос</a>
+<section class="cd-faq">
+	<ul class="cd-faq-categories">
+	    {% for cat in categories %}
+            <li><a href="#{{cat.id}}">{{cat.name}}</a></li>
+		{% endfor %}
+	</ul>
+
+	<div class="cd-faq-items">
+	    {% for cat in categories %}
+            <ul id="{{cat.id}}" class="cd-faq-group">
+                <li class="cd-faq-title"><h2>{{cat.name}}</h2></li>
+	            {% for question in cat.questions %}
+                    {% if question.status == 2 %}
+                        <li>
+                            <a class="cd-faq-trigger" href="#0">{{question.text}}</a>
+                            <div class="cd-faq-content">
+                                <p>Вопрос задан {{question.date}}; Спросил(а) {{question.name}} ({{question.email}})</p>
+                                <br>
+                                <b>Ответ:</b>
+                                <p>{{question.answer}}</p>
+                            </div>
+                        </li>
+                    {% endif %}
+		        {% endfor %}
+            </ul>
+		{% endfor %}
+	</div>
+	<a href="#0" class="cd-close-panel">Close</a>
+</section>
+<script src="js/jquery-2.1.1.js"></script>
+<script src="js/jquery.mobile.custom.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
