@@ -8,18 +8,19 @@ $twig = new Twig_Environment($loader, array(
     'cache' => './tmp/cache',
 ));
 
-$sqlController = new dbQueries();
-$cats = $sqlController->getAllCategories();
+$sqlQuestionController = new QuestionsQueries();
+$sqlCategoriesController = new CategoriesQueries();
+$categories = $sqlCategoriesController->getAllCategories();
 
-$params = array();
-foreach ($cats as $cat) {
-    $questions = $sqlController->getQuestionsForCat($cat['id']);
-    $cat['questions'] = $questions;
-    $params['categories'][] = $cat;
+$question_data = array();
+foreach ($categories as $category) {
+    $questions = $sqlQuestionController->getQuestionsForCategory($category['id']);
+    $category['questions'] = $questions;
+    $question_data['categories'][] = $category;
 }
 
 $template = $twig->loadTemplate('index.phtml');
-$template->display($params);
+$template->display($question_data);
 
 
 

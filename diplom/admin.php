@@ -8,16 +8,20 @@ $twig = new Twig_Environment($loader, array(
     'cache' => './tmp/cache',
 ));
 
-$sqlController = new dbQueries();
+$sqlAdminController = new AdminQueries();
 $template = $twig->loadTemplate('admin.phtml');
 
 if (!empty($_POST)) {
-    $a = $sqlController->enterAdmin($_POST['login'], $_POST['password']);
-    if ($a === 1) {
+    if (!empty($_POST['login']) && !empty($_POST['password'])) {
+        $report = $sqlAdminController->enterAdmin($_POST['login'], $_POST['password']);
+        if ($report === Statuses::$sent) {
         header('Location: admin-interface.php');
+        } else {
+            $template->display(['isEnter' => $report]);
+        }
     } else {
-        $template->display(['isEnter' => $a]);
-    }
+        $template->display(['isEnter' => 'Введите все данные!']);
+    }    
 } else {
-    $template->display(['isEnter' => 0]);
+    $template->display(['isEnter' => Statuses::$notSent]);
 }

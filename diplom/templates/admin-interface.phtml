@@ -19,6 +19,9 @@
 <section class="cd-faq">
 	
 	<div class="cd-faq-items">
+        {% if isError != 0 %}
+            <p>{{isError}}</p>
+        {% endif %}
         {% if changing.true %}
            <h2>Редактирование вопроса:</h2>
            <form method="POST">
@@ -43,7 +46,8 @@
                     {{changing.answer}}
                 </textarea><br>
                 <input type="hidden" value="{{changing.id}}" name="questionID">
-                <input type="submit" name="confirmChangeQuestion" value ="Подтвердить">
+                <input type="hidden" value="confirmChangeQuestion" name="action">
+                <input type="submit" value ="Подтвердить">
            </form>
         {% endif %}
         <ul id="users" class="cd-faq-group">            
@@ -56,7 +60,8 @@
                         <input name="login">
                         <label for="password">Пароль: </label>
                         <input name="password">
-                        <input type="submit" name="newAdmin" value="Добавить">
+                        <input type="hidden" value="newAdmin" name="action">
+                        <input type="submit" value="Добавить">
                    </form>
                    <br>
                     <table class="super-table">
@@ -71,8 +76,9 @@
                                 <td>{{admin.password}}</td>
                                 <td>
                                     <form method="POST">
+                                        <input type="hidden" value="deleteAdmin" name="action">
                                         <input type="hidden" value="{{admin.id}}" name="adminID">
-                                        <input type="submit" name="deleteAdmin" value="Удалить">
+                                        <input type="submit" value="Удалить">
                                     </form>
                                 </td>
                             </tr>
@@ -88,7 +94,8 @@
                         </select>
                         <label for="newPassword">Новый пароль: </label>
                         <input name="newPassword">
-                        <input type="submit" name="changePassword" value="Подтвердить">
+                        <input type="hidden" value="changePassword" name="action">
+                        <input type="submit" value="Подтвердить">
                     </form>
                 </div>
             </li>
@@ -99,7 +106,8 @@
                    <b>Добавить новую тему:</b>
                    <form method="POST">
                         <input name="newCatName">
-                        <input type="submit" name="newCat" value="Добавить">
+                        <input type="hidden" value="newCategory" name="action">
+                        <input type="submit" value="Добавить">
                    </form><br>
                     <table class="super-table">
                        <tr>
@@ -115,8 +123,9 @@
                                 <td>{{cat.na}}</td>
                                 <td>
                                     <form method="POST">
-                                        <input type="hidden" value="{{cat.id}}" name="adminID">
-                                        <input type="submit" name="deleteCat" value="Удалить">
+                                        <input type="hidden" value="{{cat.id}}" name="categoryID">
+                                        <input type="hidden" value="deleteCategory" name="action">
+                                        <input type="submit" value="Удалить">
                                     </form>
                                 </td>
                             </tr>
@@ -161,12 +170,22 @@
                                             <form method="POST">
                                                 <input type="hidden" value="{{question.id}}" name="questionID">
                                                 {% if question.status == 2 %}
-                                                    <input type="submit" name="hideQuestion" value="Скрыть">
+                                                    <input type="hidden" value="hideQuestion" name="action">
+                                                    <input type="submit" value="Скрыть">
                                                 {% elseif question.status == 3 %}
-                                                    <input type="submit" name="showQuestion" value="Показывать">
+                                                    <input type="hidden" value="showQuestion" name="action">
+                                                    <input type="submit" value="Показывать">
                                                 {% endif %}
-                                                <input type="submit" name="changeQuestion" value="Редактировать">
-                                                <input type="submit" name="deleteQuestion" value="Удалить">
+                                            </form>
+                                            <form method="POST">
+                                                <input type="hidden" value="{{question.id}}" name="questionID">
+                                                <input type="hidden" value="changeQuestion" name="action">
+                                                <input type="submit" value="Редактировать">
+                                            </form>
+                                            <form method="POST">
+                                                <input type="hidden" value="{{question.id}}" name="questionID">
+                                                <input type="hidden" value="deleteQuestion" name="action">
+                                                <input type="submit" value="Удалить">
                                             </form>
                                         </td>
                                     </tr>
@@ -187,7 +206,8 @@
                                         {% endif %}
                                     {% endfor %}
                                 </select>
-                                <input type="submit" name="changeCategory" value="Подтвердить">
+                                <input type="hidden" value="changeCategory" name="action">
+                                <input type="submit" value="Подтвердить">
                             </form><br>
                         {% endfor %}
                     </ul>
@@ -224,14 +244,20 @@
                                                         <option value=2>Видимый</option>
                                                         <option value=3>Невидимый</option>
                                                     </select>
-                                                    <input type="submit" name="answerQuestion" value="Ответить">
+                                                    <input type="hidden" value="answerQuestion" name="action">
+                                                    <input type="submit" value="Ответить">
                                                 </form>
                                             </td>
                                             <td>
                                                 <form method="POST">
                                                     <input type="hidden" value="{{question.id}}" name="questionID">
-                                                    <input type="submit" name="changeQuestion" value="Редактировать">
-                                                    <input type="submit" name="deleteQuestion" value="Удалить">
+                                                    <input type="hidden" value="changeQuestion" name="action">
+                                                    <input type="submit" value="Редактировать">
+                                                </form>
+                                                <form method="POST">
+                                                    <input type="hidden" value="{{question.id}}" name="questionID">
+                                                    <input type="hidden" value="deleteQuestion" name="action">
+                                                    <input type="submit" value="Удалить">
                                                 </form>
                                             </td>
                                         </tr>

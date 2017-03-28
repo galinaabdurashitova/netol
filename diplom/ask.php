@@ -8,17 +8,19 @@ $twig = new Twig_Environment($loader, array(
     'cache' => './tmp/cache',
 ));
 
-$sqlController = new dbQueries();
-$cats = $sqlController->getAllCategories();
+$sqlQuestionController = new QuestionsQueries();
+$sqlCategoriesController = new CategoriesQueries();
+$categories = $sqlCategoriesController->getAllCategories();
 
 $template = $twig->loadTemplate('ask.phtml');
 
 if (!empty($_POST)) {
-    if ($sqlController->insertQuestion($_POST['name'], $_POST['email'], $_POST['cat'], $_POST['text'])) {
-        $template->display(['isSent' => 1, 'cats' => $cats]);
-    } else {
-        $template->display(['isSent' => 2, 'cats' => $cats]);
+    if (!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['cat']) && !empty($_POST['text'])) {
+        $sqlQuestionController->newQuestion($_POST['name'], $_POST['email'], $_POST['cat'], $_POST['text']);
+        $template->display(['isSent' => Statuses::$sent, 'cats' => $categories]);
+    } else {  
+        $template->display(['isSent' => Statuses::$notAllData, 'cats' => $categories]);
     }
 } else {
-    $template->display(['isSent' => 0, 'cats' => $cats]);
+    $template->display(['isSent' => Statuses::$notSent, 'cats' => $categories]);
 }

@@ -30,7 +30,7 @@
             <input name="email" id="email"><br><br>
             <label for="cat">Категория вопроса: </label>
             <select name="cat">
-               {% for cat in cats %}
+                {% for cat in cats %}
                     <option value="{{cat.id}}">{{cat.name}}</option>
                 {% endfor %}
             </select><br><br>
