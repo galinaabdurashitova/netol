@@ -9,3 +9,4 @@ INSERT INTO admins (name, password) VALUES (admin, admin)
 5. Создать категории вопросов в разделе "Темы"
 
 Далее отвечать на новые вопросы, которые появляются по мере их поступления в разделе "Вопросы без ответов"
+Описание системы по адресу: https://docs.google.com/document/d/1Eudvz0O8PgwlQcavXK7KE4fPWFnG0buICiEKc1zw6DU/edit?usp=sharing
